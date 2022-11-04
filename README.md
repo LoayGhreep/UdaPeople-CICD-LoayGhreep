@@ -9,5 +9,7 @@
 
 ### Build By
 
-- [Loay-Ghreep]
-- [eCards]
+- DevOPs Engineer : Loay Ghreep
+- Manager         : Tamer Mahfouz
+- Subsidiary      : eCards
+- Group           : efinance Investment Group (EFIG)
