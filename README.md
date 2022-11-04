@@ -11,5 +11,5 @@
 
 - DevOPs Engineer : Loay Ghreep
 - Manager         : Tamer Mahfouz
-- Subsidiary      : eCards
+- Company         : eCards
 - Group           : efinance Investment Group (EFIG)
