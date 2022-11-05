@@ -108,9 +108,10 @@ jobs:
             cd frontend
             npm install --save
             exit 0
-#            Alot of vulnerabilities to be fixed by the developer
-#            npm audit fix --force --audit-level=critical
-#            npm audit --audit-level=critical
+            npm audit fix --audit-level=critical --force
+            npm audit fix --force
+            npm audit --audit-level=critical
+#           Alot of vulnerabilities to be fixed by the developer
 
   scan-backend:
     docker:
@@ -124,10 +125,10 @@ jobs:
           command: |
             cd backend
             npm install
-#            Alot of vulnerabilities to be fixed by the developer
-#            npm audit fix --force --audit-level=critical
-#            npm audit fix --force --audit-level=critical
-#            npm audit --audit-level=critical
+            npm audit fix --audit-level=critical --force
+            npm audit fix --audit-level=critical --force
+            npm audit --audit-level=critical
+#           Alot of vulnerabilities to be fixed by the developer
 
 #   deploy-infrastructure:
 #     docker:
@@ -294,7 +295,6 @@ jobs:
 #               # your code here
 #             fi
             
-#small change to commit
 
 workflows:
   default:
