@@ -107,10 +107,10 @@ jobs:
           command: |
             cd frontend
             npm install --save
+            exit 0
 #            Alot of vulnerabilities to be fixed by the developer
 #            npm audit fix --force --audit-level=critical
 #            npm audit --audit-level=critical
-            exit 0
 
   scan-backend:
     docker:
