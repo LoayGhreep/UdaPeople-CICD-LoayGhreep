@@ -1,7 +1,12 @@
 ---
 - name: "upgrade packages."
   become: true
-  shell: curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+  apt:
+    upgrade: "yes"
+
+- name: "get node"
+  become: true
+  shell: /usr/bin/curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
 
 - name: "install NodeJS 13"
   become: true
