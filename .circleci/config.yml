@@ -22,8 +22,6 @@ commands:
             sudo apt install ansible
 
   destroy-environment:
-    docker:
-    - image: cimg/base:stable
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
       id:
@@ -34,14 +32,14 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
-            aws s3 rm s3://udapeople-<<parameters.id>> --recursive
-            aws cloudformation delete-stack \
-              --stack-name "udapeople-frontend-<<parameters.id>>"
-            aws cloudformation delete-stack \
-              --stack-name "udapeople-backend-<<parameters.id>>"
+#            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+#            unzip awscliv2.zip
+#            sudo ./aws/install
+#            aws s3 rm s3://udapeople-<<parameters.id>> --recursive
+#            aws cloudformation delete-stack \
+#              --stack-name "udapeople-frontend-<<parameters.id>>"
+#            aws cloudformation delete-stack \
+#              --stack-name "udapeople-backend-<<parameters.id>>"
 
 #   revert-migrations:
 #     description: Revert the last migration if successfully run in the current workflow.
