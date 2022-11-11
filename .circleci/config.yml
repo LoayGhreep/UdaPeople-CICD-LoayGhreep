@@ -206,7 +206,8 @@ jobs:
           name: Configure server
           working_directory: .circleci/ansible/
           command: |
-            ansible-playbook -i /tmp/workspace/inventory.txt configure-server.yml
+            cat .circleci/ansible/inventory.txt
+            ansible-playbook -i .circleci/ansible/inventory.txt configure-server.yml
 #      - destroy-environment
 
 #   run-migrations:
