@@ -39,7 +39,7 @@ commands:
               --stack-name "udapeople-frontend-<<parameters.id>>"
             aws cloudformation delete-stack \
               --stack-name "udapeople-backend-<<parameters.id>>"
-              
+
 #   revert-migrations:
 #     description: Revert the last migration if successfully run in the current workflow.
 #     parameters:
@@ -161,7 +161,7 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      - install_aws_cli
+      - install_awscli
       - run:
           name: Ensure back-end infrastructure exists
           command: |
