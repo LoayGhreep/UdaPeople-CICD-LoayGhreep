@@ -191,7 +191,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: cimg/base:stable
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - install_ansible
@@ -199,6 +199,10 @@ jobs:
           fingerprints: ["50:9d:be:27:b3:35:5f:ff:74:91:58:82:44:dc:3b:fc"]
       - attach_workspace:
           at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible
       - run:
           name: Configure server
           command: |
