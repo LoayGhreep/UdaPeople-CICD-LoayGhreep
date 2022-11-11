@@ -32,6 +32,7 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
+            ls
 #            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 #            unzip awscliv2.zip
 #            sudo ./aws/install
@@ -190,7 +191,7 @@ jobs:
           root: .circleci/ansible/
           paths:
             - inventory.txt
-      - destroy-environment
+#      - destroy-environment
 
   configure-infrastructure:
     docker:
@@ -210,7 +211,7 @@ jobs:
           working_directory: .circleci/ansible/
           command: |
             ansible-playbook -i inventory.txt configure-server.yml
-      - destroy-environment
+#      - destroy-environment
 
 #   run-migrations:
 #     docker:
