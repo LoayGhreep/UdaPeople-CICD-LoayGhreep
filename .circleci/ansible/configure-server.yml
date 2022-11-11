@@ -19,12 +19,17 @@
         timeout: 600
 
     - name: "install python for Ansible."
-      become: true
       shell: |
         /usr/bin/test -e /usr/bin/python3 || (/usr/bin/apt -y update && /usr/bin/apt install -y python3)
+
+    - name: "install Nodejs"
+      shell: |
         /usr/bin/apt-get update
         /usr/bin/curl -sL https://deb.nodesource.com/setup_13.x | -E bash -
         /usr/bin/apt install nodejs
+
+    - name: "install pm2"
+      shell: |
         /usr/bin/npm install pm2
 
       changed_when: false
