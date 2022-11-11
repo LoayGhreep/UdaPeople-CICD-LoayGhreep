@@ -200,6 +200,7 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
+      - install_awscli
       - add_ssh_keys:
           fingerprints: ["67:0a:4f:1d:2b:ff:d0:b1:59:d1:24:75:b0:06:a7:02"]
       - attach_workspace:
@@ -214,8 +215,14 @@ jobs:
           name: Configure server
           working_directory: .circleci/ansible/
           command: |
-            echo $BACKEND_PUBLIC_IP >> .circleci/ansible/inventory.txt
+            echo "[web]" > inventory.txt
+            echo $BACKEND_PUBLIC_IP >> inventory.txt
             cat inventory.txt
+            BACKEND_PUBLIC_IF=$(aws ec2 describe-instances \
+              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text)
+            echo $BACKEND_PUBLIC_IF
             ansible-playbook -i inventory.txt configure-server.yml
 #      - destroy-environment
 
@@ -347,7 +354,8 @@ workflows:
       - scan-frontend:
           requires: [build-frontend]
       - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+#          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          requires: [build-frontend, build-backend]
           filters:
             branches:
               only: [main]
