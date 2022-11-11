@@ -191,7 +191,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: cimg/base:stable
     steps:
       - checkout
       - install_ansible
@@ -202,7 +202,10 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible
+            sudo apt update
+            sudo apt install software-properties-common
+            sudo add-apt-repository --yes --update ppa:ansible/ansible
+            sudo apt update ansible
       - run:
           name: Configure server
           command: |
