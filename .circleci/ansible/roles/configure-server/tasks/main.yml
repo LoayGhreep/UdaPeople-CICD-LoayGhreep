@@ -1,24 +1,26 @@
 ---
 - name: "upgrade packages."
   become: true
-  apt:
-    upgrade: "yes"
+  shell: /usr/bin/apt-get update
 
 - name: "get node"
   become: true
-  shell: /usr/bin/curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+  shell: |
+    /usr/bin/curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+    /usr/bin/apt install nodejs
+    npm install pm2
 
-- name: "install NodeJS 13"
-  become: true
-  apt:
-    name: ["nodejs", "npm"]
-    state: latest
-    update_cache: yes
+#- name: "install NodeJS 13"
+#  become: true
+#  apt:
+#    name: ["nodejs", "npm"]
+#    state: latest
+#    update_cache: yes
 
-- name: "install pm2"
-  become: true
-  npm:
-    name: pm2
-    global: yes
-    production: yes
-    state: present
+#- name: "install pm2"
+#  become: true
+#  npm:
+#    name: pm2
+#    global: yes
+#    production: yes
+#    state: present
