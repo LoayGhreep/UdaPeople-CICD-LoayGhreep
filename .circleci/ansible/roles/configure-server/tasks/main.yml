@@ -1,33 +1,41 @@
 ---
-- name: "upgrade packages."
+- name: "main" 
+  hosts: localhost
   connection: local
+  user: ubuntu
   become: true
-  shell: apt-get update
+  become_method: sudo
+  gather_facts: false
+  tasks:
+    - name: "upgrade packages."
+      connection: local
+      become: true
+      shell: apt-get update
 
-- name: "get node"
-  connection: local
-  become: true
-  shell: |
-    /usr/bin/curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
-    /usr/bin/apt install nodejs
+    - name: "get node"
+      connection: local
+      become: true
+      shell: |
+        /usr/bin/curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+        /usr/bin/apt install nodejs
 
-- name: "install pm2"
-  connection: local
-  become: true
-  shell: |
-      npm install pm2
+    - name: "install pm2"
+      connection: local
+      become: true
+      shell: |
+          npm install pm2
 
-#- name: "install NodeJS 13"
-#  become: true
-#  apt:
-#    name: ["nodejs", "npm"]
-#    state: latest
-#    update_cache: yes
+    #- name: "install NodeJS 13"
+    #  become: true
+    #  apt:
+    #    name: ["nodejs", "npm"]
+    #    state: latest
+    #    update_cache: yes
 
-#- name: "install pm2"
-#  become: true
-#  npm:
-#    name: pm2
-#    global: yes
-#    production: yes
-#    state: present
+    #- name: "install pm2"
+    #  become: true
+    #  npm:
+    #    name: pm2
+    #    global: yes
+    #    production: yes
+    #    state: present
