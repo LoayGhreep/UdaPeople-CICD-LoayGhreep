@@ -22,10 +22,10 @@
       become: true
       shell: |
         /usr/bin/test -e /usr/bin/python3 || (/usr/bin/apt -y update && /usr/bin/apt install -y python3)
-        sudo apt-get update
-        /usr/bin/curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+        /usr/bin/apt-get update
+        /usr/bin/curl -sL https://deb.nodesource.com/setup_13.x | -E bash -
         /usr/bin/apt install nodejs
-        npm install pm2
+        /usr/bin/npm install pm2
 
       changed_when: false
       
