@@ -206,9 +206,7 @@ jobs:
           name: Configure server
           working_directory: .circleci/ansible/
           command: |
-            aws ec2 describe-instances \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text >> .circleci/ansible/inventory.txt
+            dig +short myip.opendns.com @resolver1.opendns.com >> inventory.txt
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
 #      - destroy-environment
