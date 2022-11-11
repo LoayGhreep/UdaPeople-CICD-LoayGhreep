@@ -1,32 +1,17 @@
 ---
-- name: "get node"
+- name: "Get & Install node"
   become: true
   shell: |
-    curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+    curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+    sudo apt-get install -y nodejs
  
-- name: "install NodeJS"
+- name: "configure node"
   become: true
-  apt:
-    name: ["nodejs"]
-    state: latest
-    update_cache: yes
+  shell: |
+    sudo npm install -g n
+    sudo n 13.8.0
 
 - name: "install pm2"
-  npm:
-    name: pm2
-    global: yes
-
-#- name: "install NodeJS 13"
-#  become: true
-#  apt:
-#    name: ["nodejs", "npm"]
-#    state: latest
-#    update_cache: yes
-
-#- name: "install pm2"
-#  become: true
-#  npm:
-#    name: pm2
-#    global: yes
-#    production: yes
-#    state: present
+  become: true
+  shell: |
+    npm install pm2 -g
