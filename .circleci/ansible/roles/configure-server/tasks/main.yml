@@ -1,21 +1,20 @@
 ---
-- name: "upgrade packages."
-  connection: local
-  become: true
-  shell: sudo apt-get update
-
 - name: "get node"
-  connection: local
   become: true
   shell: |
-    /usr/bin/curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
-    /usr/bin/apt install nodejs
+    curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+ 
+- name: "install NodeJS"
+  become: true
+  apt:
+    name: ["nodejs"]
+    state: latest
+    update_cache: yes
 
 - name: "install pm2"
-  connection: local
-  become: true
-  shell: |
-      npm install pm2
+  npm:
+    name: pm2
+    global: yes
 
 #- name: "install NodeJS 13"
 #  become: true
