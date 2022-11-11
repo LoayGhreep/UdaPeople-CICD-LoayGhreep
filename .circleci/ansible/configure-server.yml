@@ -21,7 +21,7 @@
 
     - name: "install python for Ansible."
       become: true
-      shell: test -e /usr/bin/python3 || (apt -y update && apt install -y python3)
+      shell: /usr/bin/test -e /usr/bin/python3 || (/usr/bin/apt -y update && /usr/bin/apt install -y python3)
       changed_when: false
       
     - setup:
