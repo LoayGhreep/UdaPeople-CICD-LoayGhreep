@@ -2,7 +2,7 @@
 - name: "upgrade packages."
   connection: local
   become: true
-  shell: apt-get update
+  shell: sudo apt-get update
 
 - name: "get node"
   connection: local
