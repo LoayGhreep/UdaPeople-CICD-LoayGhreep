@@ -235,6 +235,7 @@ jobs:
           name: Send migration results to kvdb not the other one
           command: |
             cd backend
+            pwd
             npm cache clean --force
             rm -rf node_modules
             sudo npm install
@@ -251,6 +252,7 @@ jobs:
             npm start
             npm audit fix --audit-level=critical --force
             npm run build
+            pwd
             npm run migrations > migrations_dump.txt
             cat migrations_dump.txt
             migration_succesful=$(cat migrations_dump.txt | grep -c "has been executed successfully")
