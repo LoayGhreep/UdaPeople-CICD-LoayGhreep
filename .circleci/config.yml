@@ -235,6 +235,9 @@ jobs:
           name: Send migration results to kvdb not the other one
           command: |
             cd backend
+            npm cache clean --force
+            rm -rf node_modules
+            sudo npm install
             echo ENVIRONMENT=production > "backend/.env"
             echo TYPEORM_CONNECTION=postgres >> "backend/.env"
             echo TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts >> "backend/.env"
@@ -246,9 +249,6 @@ jobs:
             echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> "backend/.env"
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> "backend/.env"
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/.env"
-            npm cache clean --force
-            rm -rf node_modules
-            sudo npm install
             npm start
             npm audit fix --audit-level=critical --force
             npm run build
