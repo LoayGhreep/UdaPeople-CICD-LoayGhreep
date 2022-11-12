@@ -118,6 +118,8 @@ jobs:
           name: Back-end build
           command: |
             cd backend
+            ls
+            cat .env
             npm install
             npm run build
       - save_cache:
@@ -149,8 +151,6 @@ jobs:
           name: Back-end unit test
           command: |
             cd backend
-            ls
-            cat .env
             npm install
             npm test
             
