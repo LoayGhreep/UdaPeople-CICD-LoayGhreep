@@ -119,11 +119,11 @@ jobs:
           command: |
             cd backend
             echo "1"
-            npm install typescript -g
+            sudo npm install typescript -g
             echo "1-1"
-            npm install
+            sudo npm install
             echo "2"
-            npm run build
+            sudo npm run build
             echo "3"
       - save_cache:
           paths: [backend/node_modules]
