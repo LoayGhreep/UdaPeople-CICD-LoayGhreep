@@ -185,10 +185,10 @@ jobs:
           name: Back-end scan
           command: |
             cd backend
-            npm install
-            npm audit fix --audit-level=critical --force
-            npm audit fix --audit-level=critical --force
-            npm audit --audit-level=critical
+            sudo npm install
+            sudo npm audit fix --audit-level=critical --force
+            sudo npm audit fix --audit-level=critical --force
+            sudo npm audit --audit-level=critical
 
 
   deploy-infrastructure:
