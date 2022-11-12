@@ -274,6 +274,7 @@ jobs:
               echo    TYPEORM_USERNAME=$TYPEORM_USERNAME                     >> "backend/.env"
               echo    TYPEORM_PASSWORD=$TYPEORM_PASSWORD                     >> "backend/.env"
               echo    TYPEORM_DATABASE=$TYPEORM_DATABASE                     >> "backend/.env"
+              cat backend/.env
               cd backend
               echo "1"
               npm install typescript
@@ -286,8 +287,6 @@ jobs:
               echo "5"
           no_output_timeout: 30m
       - revert-migrations
-      - destroy-environment:
-          workflowID: ${CIRCLE_WORKFLOW_ID:0:7}#
 #            if grep -q "has been executed successfully." migrations_dump.txt
 #            echo "${CIRCLE_WORKFLOW_ID:0:7}"
 #            then
