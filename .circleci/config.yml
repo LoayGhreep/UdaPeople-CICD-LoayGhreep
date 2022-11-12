@@ -271,8 +271,10 @@ jobs:
           command: |
               cd backend
               echo "1"
-              sudo npm run test -- -u
-              sudo npm i
+              sudo npm install
+              echo "1-1"
+              sudo npm test --updateSnapshot
+              echo "1-2"
               sudo npm run build
               echo "2"
               npm run migrations > migration_output.log
