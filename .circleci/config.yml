@@ -271,7 +271,6 @@ jobs:
           name: Prepare NodeJS
           command: |
               cd backend
-              npm login
               echo "1"
               sudo npm cache clean --force
               sudo rm -rf node_modules
