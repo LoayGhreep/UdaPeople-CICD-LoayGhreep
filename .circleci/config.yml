@@ -149,6 +149,8 @@ jobs:
           name: Back-end unit test
           command: |
             cd backend
+            ls
+            cat .env
             npm install
             npm test
             
