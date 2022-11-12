@@ -118,8 +118,13 @@ jobs:
           name: Back-end build
           command: |
             cd backend
+            echo "1"
+            npm install typescript -g
+            echo "1-1"
             npm install
+            echo "2"
             npm run build
+            echo "3"
       - save_cache:
           paths: [backend/node_modules]
           key: backend-deps
