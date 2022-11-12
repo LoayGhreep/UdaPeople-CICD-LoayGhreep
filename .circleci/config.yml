@@ -264,19 +264,21 @@ jobs:
     steps:
       - checkout
       - install_awscli
+      - create-dotenv-file
       - attach_workspace:
             at: ~/
       - run:
           name: Prepare NodeJS
           command: |
               cd backend
+              npm login
               echo "1"
               sudo npm cache clean --force
               sudo rm -rf node_modules
               echo "2"
               sudo npm install
               echo "3"
-              sudo npm start
+              sudo npm run start
               echo "4"
               sudo npm test --updateSnapshot
               echo "5"
