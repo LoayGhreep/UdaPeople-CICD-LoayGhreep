@@ -267,22 +267,31 @@ jobs:
       - attach_workspace:
             at: ~/
       - run:
-          name: Send migration results to kvdb not the other one
+          name: Prepare NodeJS
           command: |
               cd backend
               echo "1"
-              sudo npm install
-              echo "1-1"
-              sudo npm test --updateSnapshot
-              echo "1-2"
-              sudo npm run build
+              sudo npm cache clean --force
+              sudo rm -rf node_modules
+              sudo rm package-lock.json
               echo "2"
-              npm run migrations > migration_output.log
+              sudo npm install
               echo "3"
-              cat migration_output.log
+              sudo npm start
               echo "4"
-              pwd migration_output.log
+              sudo npm test --updateSnapshot
               echo "5"
+              sudo npm run build
+              echo "6"
+      - run:
+          name: Send migration results to kvdb not the other one
+          command: |
+              npm run migrations > migration_output.log
+              echo "1"
+              cat migration_output.log
+              echo "2"
+              pwd
+              echo "3"
           no_output_timeout: 30m
       - revert-migrations
 #            if grep -q "has been executed successfully." migrations_dump.txt
