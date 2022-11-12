@@ -140,8 +140,8 @@ jobs:
           name: front-end unit test
           command: |
             cd frontend
-            npm install
-            npm test
+            sudo npm install
+            sudo npm test
                 
   test-backend:
     docker:
@@ -154,8 +154,8 @@ jobs:
           name: Back-end unit test
           command: |
             cd backend
-            npm install
-            npm test
+            sudo npm install
+            sudo npm test --updateSnapshot
             
   scan-frontend:
     docker:
