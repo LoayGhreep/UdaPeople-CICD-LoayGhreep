@@ -258,23 +258,33 @@ jobs:
     steps:
       - checkout
       - install_awscli
-      - restore_cache:
-          keys: [backend-deps]
+      - attach_workspace:
+            at: ~/
       - run:
           name: Send migration results to kvdb not the other one
           command: |
-            cd backend
-            npm run build
-            echo "1"
-            echo "2"
-            npm run migrations > migrations_dump.txt
-            echo "3"
-            cat migrations_dump.txt
-            echo "4"
-            migration_succesful=$(cat migrations_dump.txt | grep -c "has been executed successfully")
-            echo "5"
-            if [ $migration_succesful > 0 ]; then exit 0; else exit 1; fi;
-            echo "6"
+              echo    ENVIRONMENT=production                                 > "backend/.env"
+              echo    TYPEORM_CONNECTION=postgres                            >> "backend/.env"
+              echo    TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts   >> "backend/.env"
+              echo    TYPEORM_MIGRATIONS=./src/migrations/*.ts               >> "backend/.env"
+              echo    TYPEORM_MIGRATIONS_DIR=./src/migrations                >> "backend/.env"
+              echo    NODE_ENV=production                                    >> "backend/.env"
+              echo    TYPEORM_HOST=$TYPEORM_HOST                             >> "backend/.env"
+              echo    TYPEORM_PORT=$TYPEORM_PORT                             >> "backend/.env"
+              echo    TYPEORM_USERNAME=$TYPEORM_USERNAME                     >> "backend/.env"
+              echo    TYPEORM_PASSWORD=$TYPEORM_PASSWORD                     >> "backend/.env"
+              echo    TYPEORM_DATABASE=$TYPEORM_DATABASE                     >> "backend/.env"
+              cd backend
+              echo "1"
+              npm install typescript
+              echo "2"
+              npm run migrations > migration_output.log
+              echo "3"
+              cat migration_output.log
+              echo "4"
+              pwd migration_output.log
+              echo "5"
+          no_output_timeout: 30m
       - revert-migrations
       - destroy-environment:
           workflowID: ${CIRCLE_WORKFLOW_ID:0:7}#
