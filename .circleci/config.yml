@@ -271,11 +271,6 @@ jobs:
           name: Prepare NodeJS
           command: |
               cd backend
-              sudo npm cache clean --force
-              sudo rm -rf node_modules
-              sudo npm install
-              sudo npm run build
-              sudo npm test --updateSnapshot
               npm run migrations > migrations_dump.txt
               echo "1"
               cat migrations_dump.txt
