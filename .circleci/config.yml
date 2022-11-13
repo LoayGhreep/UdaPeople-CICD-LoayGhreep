@@ -268,12 +268,14 @@ jobs:
           command: |
               cd backend
               sudo npm install
-              npm run migrations > migrations_dump.txt
+              sudo npm run migrations > migrations_dump.txt
               cat migrations_dump.txt
               if grep -q "has been executed successfully." migrations_dump.txt
               then
                   curl -d '1' https://kvdb.io/YHfkL8imZwJhHwV2UGVznq/migration
               fi
+              pwd
+              cat migrations_dump.txt
       - revert-migrations
 
      # Here's where you will add some code to rollback on failure      
