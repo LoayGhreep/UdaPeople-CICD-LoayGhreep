@@ -47,14 +47,15 @@ commands:
           name: Destroy backend stack
           when: on_fail
           command: |
+            aws s3 rm arn:aws:s3:::udapeople-<< parameters.workflowID >> --recursive
+            aws s3 rb arn:aws:s3:::udapeople-<< parameters.workflowID >> --force
             aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflowID >>
       - run:
           name: Destroy frontend stack
           when: on_fail
           command: |
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflowID >>
-#            aws s3 rm arn:aws:s3:::udapeople-<< parameters.workflowID >> --recursive
-#            aws s3 rb arn:aws:s3:::udapeople-<< parameters.workflowID >> --force
+
 
   create-dotenv-file:
     description: Create .env file
@@ -264,7 +265,6 @@ jobs:
             echo $BACKEND_PUBLIC_IF >> inventory.txt
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
-#      - destroy-environment
 
   run-migrations:
     docker:
@@ -279,6 +279,9 @@ jobs:
           name: Prepare NodeJS
           command: |
             cd backend
+            export TYPEORM_MIGRATIONS_DIR=/home/circleci/project/backend/src/migrations
+            export TYPEORM_ENTITIES=/home/circleci/project/backend/src/modules/domain/**/*.entity.ts
+            export TYPEORM_MIGRATIONS=/home/circleci/project/backend/src/migrations/*.ts
             sudo npm cache clean --force
             sudo rm -rf node_modules
             sudo npm install
@@ -326,22 +329,44 @@ jobs:
             echo "s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}"
       # Here's where you will add some code to rollback on failure      
                     
-#   deploy-backend:s
-#     docker:
-#       # Docker image here that supports Ansible
-#     steps:
-#       # Checkout code from git
-#       # Add ssh keys with fingerprint
-#       # attach workspace
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # your code here
-#       - run:
-#           name: Deploy backend
-#           command: |
-#             # your code here
-#       # Here's where you will add some code to rollback on failure  
+  deploy-backend:
+    docker:
+      - image: cimg/node:13.8.0
+    steps:
+      - checkout
+      - install_awscli
+      - install_nodejs
+      - install_ansible
+      - add_ssh_keys:
+          fingerprints: ["67:0a:4f:1d:2b:ff:d0:b1:59:d1:24:75:b0:06:a7:02"]
+      - restore_cache:
+          keys: [backend-deps]
+      - run:
+          name: Install dependencies
+          command: |
+            cd backend
+            npm install
+      - run:
+          name: Package backend
+          command: |
+            cd backend
+            npm run build
+            tar -czf artifact.tar.gz dist/* package*
+            cd ..
+            cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
+      - run:
+          name: Deploy backend
+          command: |
+            export TYPEORM_MIGRATIONS_DIR=/home/circleci/project/backend/src/migrations
+            export TYPEORM_ENTITIES=/home/circleci/project/backend/src/modules/domain/**/*.entity.ts
+            export TYPEORM_MIGRATIONS=/home/circleci/project/backend/src/migrations/*.ts
+            cd .circleci/ansible/
+            cat inventory.txt
+            ansible-playbook -i inventory.txt deploy-backend.yml
+      - destroy-environment:
+          ${CIRCLE_WORKFLOW_ID:0:7}
+      - revert-migrations
+
 
 #   smoke-test:
 #     docker:
@@ -426,8 +451,8 @@ workflows:
           requires: [configure-infrastructure]
       - deploy-frontend:
           requires: [run-migrations]
-      # - deploy-backend:
-      #     requires: [run-migrations]
+      - deploy-backend:
+          requires: [run-migrations]
       # - smoke-test:
       #     requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:

@@ -1,2 +1,2 @@
-aws cloudformation deploy --tags project="udapeople" --template-file cloudfront.yml --stack-name "udapeople-cloudfromation-${CIRCLE_WORKFLOW_ID:0:7}" --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"
+aws cloudformation deploy --tags project="udapeople" --template-file cloudfront.yml --stack-name "udapeople-deb01ff" --parameter-overrides WorkflowID="deb01ff"
 #830833273637abcd
