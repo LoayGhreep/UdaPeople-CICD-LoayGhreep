@@ -272,20 +272,6 @@ jobs:
           command: |
               cd backend
               echo "1"
-              sudo npm cache clean --force
-              sudo rm -rf node_modules
-              echo "2"
-              sudo npm install
-              echo "3"
-              sudo npm run start
-              echo "4"
-              sudo npm test --updateSnapshot
-              echo "5"
-              sudo npm run build
-              echo "6"
-      - run:
-          name: Send migration results to kvdb not the other one
-          command: |
               npm run migrations > migration_output.log
               echo "1"
               cat migration_output.log
