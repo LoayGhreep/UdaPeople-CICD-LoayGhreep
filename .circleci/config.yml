@@ -350,7 +350,9 @@ jobs:
           name: Package backend
           command: |
             cd backend
-            npm run build
+            sudo npm install typescript -g
+            sudo npm install
+            sudo npm run build
             tar -czf artifact.tar.gz dist/* package*
             cd ..
             cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
