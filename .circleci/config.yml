@@ -274,15 +274,19 @@ jobs:
               sudo npm cache clean --force
               sudo rm -rf node_modules
               sudo npm install
+              sudo npm run build
+              sudo npm test --updateSnapshot
       - run:
           name: Send it to kvdb
           command: |
               cd backend
               npm run migrations > migrations_dump.txt
+              echo "1"
               cat migrations_dump.txt
+              echo "2"
               if grep -q "has been executed successfully." migrations_dump.txt
               then
-                  curl --insecure https://kvdb.io/YHfkL8imZwJhHwV2UGVznq/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
+                  curl -d '1' https://kvdb.io/YHfkL8imZwJhHwV2UGVznq/migration_${CIRCLE_WORKFLOW_ID:0:7}
               fi
           no_output_timeout: 30m
       - revert-migrations
