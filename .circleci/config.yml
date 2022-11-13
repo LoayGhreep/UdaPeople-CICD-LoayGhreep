@@ -369,7 +369,10 @@ jobs:
               --output text)
             echo $BACKEND_PUBLIC_IF >> inventory.txt
             cat inventory.txt
-            ansible-playbook -i inventory.txt deploy-backend.yml
+            sed -i 's/host_key_checking = True/host_key_checking = False/g' /etc/ansible/ansible.cfg
+            sed -i 's/host_key_checking=True/host_key_checking = False/g' /etc/ansible/ansible.cfg
+            export ANSIBLE_HOST_KEY_CHECKING=False
+            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory.txt deploy-backend.yml
       - destroy-environment
       - revert-migrations
 
@@ -455,8 +458,8 @@ workflows:
           requires: [deploy-infrastructure]
       - run-migrations:
           requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [run-migrations]
+#      - deploy-frontend:
+#          requires: [run-migrations]
       - deploy-backend:
           requires: [run-migrations]
       # - smoke-test:
