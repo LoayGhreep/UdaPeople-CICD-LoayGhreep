@@ -33,3 +33,11 @@
 
   roles:
     - deploy
+
+- block:
+    - name: "end play if nothing to upgrade"
+      debug:
+        msg: "nothing to upgrade, ending play"
+
+    - meta: end_play
+  when: upgrading.stdout == "no"
