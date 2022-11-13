@@ -40,4 +40,3 @@
         msg: "nothing to upgrade, ending play"
 
     - meta: end_play
-      when: upgrading.stdout == "no"
