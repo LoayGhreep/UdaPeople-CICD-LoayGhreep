@@ -48,9 +48,9 @@ commands:
           name: Destroy backend stack
           when: on_fail
           command: |
-            aws s3 rb arn:aws:s3:::udapeople-<< parameters.workflowID >> --force
-            aws s3 rm arn:aws:s3:::udapeople-<< parameters.workflowID >> --recursive
             aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflowID >>
+            aws s3 rm arn:aws:s3:::udapeople-<< parameters.workflowID >> --recursive
+            aws s3 rb arn:aws:s3:::udapeople-<< parameters.workflowID >> --force
       - run:
           name: Destroy frontend stack
           when: on_fail
