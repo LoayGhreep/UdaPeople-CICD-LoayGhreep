@@ -269,7 +269,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: cimg/node:13.8.0
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - install_awscli
@@ -287,7 +287,7 @@ jobs:
             sudo rm -rf node_modules
             sudo npm install
             cat .env
-            sudo npm run migrations > migrations_dump.txt
+            npm run migrations > migrations_dump.txt
             cat migrations_dump.txt
             pwd
             if grep -q "has been executed successfully." migrations_dump.txt
@@ -371,7 +371,7 @@ jobs:
             cat inventory.txt
             sudo sed -i 's/host_key_checking = True/host_key_checking = False/g' /etc/ansible/ansible.cfg
             sudo sed -i 's/host_key_checking=True/host_key_checking = False/g' /etc/ansible/ansible.cfg
-            sudo export ANSIBLE_HOST_KEY_CHECKING=False
+            ANSIBLE_HOST_KEY_CHECKING=False
             sudo ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory.txt deploy-backend.yml
       - destroy-environment
       - revert-migrations
