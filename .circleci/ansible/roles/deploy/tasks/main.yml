@@ -24,7 +24,7 @@
 
 - name: print msg
   debug:
-  msg: "{{execute_node.stdout_lines}}"
+    msg: "{{execute_node.stdout_lines}}"
 
 - name: configure pm2 to saas
   become: true
