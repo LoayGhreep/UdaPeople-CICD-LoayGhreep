@@ -268,7 +268,8 @@ jobs:
           command: |
               cd backend
               sudo npm install
-              sudo npm run migration > migrations_dump.txt
+              sudo npm install typescript
+              sudo npm run migrations > migrations_dump.txt
               cat migrations_dump.txt
               if grep -q "has been executed successfully." migrations_dump.txt
               then
