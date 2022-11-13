@@ -277,6 +277,7 @@ jobs:
       - run:
           name: Send it to kvdb
           command: |
+              cd backend
               npm run migrations > migrations_dump.txt
               cat migrations_dump.txt
               if grep -q "has been executed successfully." migrations_dump.txt
