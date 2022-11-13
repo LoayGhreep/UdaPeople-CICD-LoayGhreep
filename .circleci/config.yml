@@ -339,9 +339,7 @@ jobs:
       - install_nodejs
       - install_ansible
       - add_ssh_keys:
-          fingerprints: ["50:9d:be:27:b3:35:5f:ff:74:91:58:82:44:dc:3b:fc"]
-      - restore_cache:
-          keys: [backend-deps]
+          fingerprints: ["67:0a:4f:1d:2b:ff:d0:b1:59:d1:24:75:b0:06:a7:02"]
       - run:
           name: Install dependencies
           command: |
