@@ -267,11 +267,12 @@ jobs:
           name: Prepare NodeJS
           command: |
               cd backend
+              sudo npm cache clean --force
+              sudo rm -rf node_modules
               sudo npm install
-              sudo npm install typescript
               sudo npm run migrations > migrations_dump.txt
               cat migrations_dump.txt
-              if grep -q "has been executed successfully." migrations_dump.txt
+              if grep -q "has been executed successfully" migrations_dump.txt
               then
                   curl -d '1' https://kvdb.io/YHfkL8imZwJhHwV2UGVznq/migration
               fi
