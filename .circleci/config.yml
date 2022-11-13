@@ -270,7 +270,8 @@ jobs:
             sudo npm cache clean --force
             sudo rm -rf node_modules
             sudo npm install
-            npm run migrations > migrations_dump.txt
+            cat .env
+            sudo npm run migrations > migrations_dump.txt
             cat migrations_dump.txt
             echo "${CIRCLE_WORKFLOW_ID:0:7}"
             if grep -q "has been executed successfully." migrations_dump.txt
