@@ -269,10 +269,9 @@ jobs:
 
   run-migrations:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/node:13.8.0
     steps:
       - checkout
-      - install_nodejs
       - install_awscli
       - create-dotenv-file
       - attach_workspace:
@@ -287,12 +286,13 @@ jobs:
               npm run migrations > migrations_dump.txt
               cat migrations_dump.txt
               if grep -q "has been executed successfully." migrations_dump.txt
-              then
+              echo "${CIRCLE_WORKFLOW_ID:0:7}"
+              then#
                   curl --insecure https://kvdb.io/YHfkL8imZwJhHwV2UGVznq/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
               fi
               echo "3"
+          no_output_timeout: 30m
       - revert-migrations
-
      # Here's where you will add some code to rollback on failure  1    
 
   deploy-frontend:
