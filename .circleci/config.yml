@@ -354,6 +354,7 @@ jobs:
             sudo npm run build
             tar -czf artifact.tar.gz dist/* package*
             pwd
+            ls
             cd ..
             sudo cp backend/artifact.tar.gz /home/
 #            .circleci/ansible/roles/deploy/filess

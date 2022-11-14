@@ -3,15 +3,12 @@
   become: true
   copy:
       src: /home/backend.tar.gz
-      dest: /home/ubuntu/backend.tar.gz
+      dest: /home/ubuntu/artifact.tar.gz
 
 - name: Start PM2
   shell: |
-      cd /home/
-      ls
-      pwd
       cd /home/ubuntu/
-      tar xzvf backend.tar.gz
+      tar xzvf artifact.tar.gz
       cd backend
       sudo npm install -g npm@latest
       sudo npm install -g webpack-dev-server
