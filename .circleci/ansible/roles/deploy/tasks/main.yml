@@ -7,6 +7,9 @@
 
 - name: Start PM2
   shell: |
+      cd /home/
+      ls
+      pwd
       cd /home/ubuntu/
       tar xzvf backend.tar.gz
       cd backend
