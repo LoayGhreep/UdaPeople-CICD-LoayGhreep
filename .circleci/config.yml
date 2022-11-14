@@ -272,6 +272,7 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
+      - install_nodejs
       - install_awscli
       - create-dotenv-file
       - attach_workspace:
