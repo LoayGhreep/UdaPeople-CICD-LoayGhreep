@@ -345,8 +345,7 @@ jobs:
           name: Package backend
           command: |
             cd backend
-            sudo npm cache clean --force
-            sudo rm -rf node_modules
+            sudo npm install typescript -g
             echo "Whooooooooooooooooooooooooooooooo-1"
             npm install
             echo "Whooooooooooooooooooooooooooooooo-2"
@@ -359,7 +358,7 @@ jobs:
           name: Deploy backend
           command: |
             export TYPEORM_MIGRATIONS_DIR=/home/circleci/project/backend/src/migrations
-            export TYPEORM_ENTITIES=/home/circleci/project/backend/src/modules/domain/**/*.entity.ts
+            export TYPEORM_ENTITIES=/home/circleci/project/backend/src/modules/domain/**/*.entity{.ts,.js}
             export TYPEORM_MIGRATIONS=/home/circleci/project/backend/src/migrations/*.ts
             cd .circleci/ansible/
             echo "[web]" > inventory.txt
