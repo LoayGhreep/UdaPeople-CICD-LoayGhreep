@@ -272,8 +272,7 @@ jobs:
               npm run migrations > migrations_dump.txt
               cat migrations_dump.txt
               if grep -q "has been executed successfully." migrations_dump.txt
-              echo "${CIRCLE_WORKFLOW_ID:0:7}"
-              then#
+              then
                   curl --insecure https://kvdb.io/YHfkL8imZwJhHwV2UGVznq/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
               fi
               echo "3"
