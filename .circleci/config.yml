@@ -251,9 +251,9 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            sudo apt-add-repository ppa:ansible/ansible
-            sudo apt update
-            sudo apt install ansible
+            sudo apt-add-repository ppa:ansible/ansible --yes
+            sudo apt update --yes
+            sudo apt install ansible --yes
       - run:
           name: Configure server
           working_directory: .circleci/ansible/
