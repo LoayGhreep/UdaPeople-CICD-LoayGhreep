@@ -282,6 +282,7 @@ jobs:
               sudo npm cache clean --force
               sudo rm -rf node_modules
               sudo npm install
+              npm run migrations:revert
               npm run migrations > migrations_dump.txt
               cat migrations_dump.txt
               if grep -q "has been executed successfully." migrations_dump.txt
@@ -332,6 +333,7 @@ jobs:
       - install_awscli
       - install_nodejs
       - install_ansible
+      - create-dotenv-file
       - add_ssh_keys:
           fingerprints: ["67:0a:4f:1d:2b:ff:d0:b1:59:d1:24:75:b0:06:a7:02"]
       - run:
@@ -343,8 +345,13 @@ jobs:
           name: Package backend
           command: |
             cd backend
-            npm i
+            sudo npm cache clean --force
+            sudo rm -rf node_modules
+            echo "Whooooooooooooooooooooooooooooooo-1"
+            npm install
+            echo "Whooooooooooooooooooooooooooooooo-2"
             npm run build
+            echo "Whooooooooooooooooooooooooooooooo-3"
             cd ..
             tar -C backend -czvf artifact.tar.gz .
             sudo cp artifact.tar.gz /home/
