@@ -280,14 +280,14 @@ jobs:
           name: Prepare NodeJS
           command: |
             cd backend
-            sudo npm cache clean --force
-            sudo rm -rf node_modules
-            npm install
             export TYPEORM_MIGRATIONS_DIR=/home/circleci/project/backend/src/migrations
             export TYPEORM_ENTITIES=/home/circleci/project/backend/src/modules/domain/**/*.entity.ts
             export TYPEORM_MIGRATIONS=/home/circleci/project/backend/src/migrations/*.ts
             cat .env
-            npm run migrations > migrations_dump.txt
+            sudo npm cache clean --force
+            sudo rm -rf node_modules
+            sudo npm install
+            sudo npm run migrations > migrations_dump.txt
             cat migrations_dump.txt
             pwd
             if grep -q "has been executed successfully." migrations_dump.txt
