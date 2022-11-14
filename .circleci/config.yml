@@ -269,7 +269,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/base:stable
     steps:
       - checkout
       - install_awscli
@@ -281,8 +281,8 @@ jobs:
           command: |
             cd backend
             export TYPEORM_MIGRATIONS_DIR=/home/circleci/project/backend/src/migrations
-            export TYPEORM_ENTITIES=/home/circleci/project/backend/src/modules/domain/**/*.entity.ts
-            export TYPEORM_MIGRATIONS=/home/circleci/project/backend/src/migrations/*.ts
+            export TYPEORM_ENTITIES=/home/circleci/project/backend/src/modules/domain/**/*.entity{.ts,.js}
+            export TYPEORM_MIGRATIONS=/home/circleci/project/backend/src/migrations/*.{.ts,.js}
             cat .env
             sudo npm cache clean --force
             sudo rm -rf node_modules
