@@ -281,10 +281,11 @@ jobs:
           command: |
             cd backend
             sudo npm cache clean --force
+            sudo rm -rf node_modules
+            npm install
             export TYPEORM_MIGRATIONS_DIR=/home/circleci/project/backend/src/migrations
             export TYPEORM_ENTITIES=/home/circleci/project/backend/src/modules/domain/**/*.entity.ts
             export TYPEORM_MIGRATIONS=/home/circleci/project/backend/src/migrations/*.ts
-            npm install
             cat .env
             npm run migrations > migrations_dump.txt
             cat migrations_dump.txt
