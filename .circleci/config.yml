@@ -244,11 +244,16 @@ jobs:
     steps:
       - checkout
       - install_awscli
-      - install_ansible
       - add_ssh_keys:
           fingerprints: ["67:0a:4f:1d:2b:ff:d0:b1:59:d1:24:75:b0:06:a7:02"]
       - attach_workspace:
           at: /tmp/workspace
+      - run:
+          name: Install dependencies
+          command: |
+            sudo apt-add-repository ppa:ansible/ansible
+            sudo apt update
+            sudo apt install ansible
       - run:
           name: Configure server
           working_directory: .circleci/ansible/
