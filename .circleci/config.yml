@@ -98,7 +98,7 @@ jobs:
             cd frontend
             npm install
             npm run build
-            npm install typescript -g
+            sudo npm install typescript -g
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-deps
