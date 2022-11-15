@@ -448,7 +448,8 @@ workflows:
             branches:
               only: [main]
       - configure-infrastructure:
-          requires: [deploy-infrastructure]
+          requires: [build-frontend,build-backend]
+#          requires: [deploy-infrastructure]
       - run-migrations:
           requires: [configure-infrastructure]
       - deploy-frontend:
