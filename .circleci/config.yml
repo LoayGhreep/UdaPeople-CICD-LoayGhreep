@@ -419,7 +419,7 @@ jobs:
               --stack-name udapeople-udaloayghreep123
       - destroy-environment
 
-cleanup:
+  cleanup:
     docker:
       - image: cimg/node:13.8.0
     steps:
@@ -429,19 +429,20 @@ cleanup:
       - install_ansible
       - create-dotenv-file
       - run:
-          name: Get old stack workflow id
+          name: Get old stack workflow id & cleanup
           command: |
             export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
               --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
             echo "Stacks:"
             echo "{STACKS[@]}"
+
             export OLD_WF= $(curl --insecure https://kvdb.io/YHfkL8imZwJhHwV2UGVznq/old_wf)
             echo "Old Wrokflow ID:"
             echo "${OLD_WF}"
                         
             if [[ "${STACKS[@]}" =~ "${OLD_WF}"]]
             then
-              echo "Removing previous stack"
+              echo "Removing previous stack ..."
               aws s3 rm "s3://udapeople-${OLD_WORKFLOW_ID}" --recursive
               aws cloudformation delete-stack --stack-name "udapeople-backend-${OLD_WORKFLOW_ID}"
               aws cloudformation delete-stack --stack-name "udapeople-frontend-${OLD_WORKFLOW_ID}"
