@@ -436,7 +436,7 @@ jobs:
             echo "Stacks:"
             echo "${STACKS[@]}"
 
-            export OLD_WF= $(curl --insecure https://kvdb.io/YHfkL8imZwJhHwV2UGVznq/old_wf)
+            export OLD_WF=$(curl --insecure https://kvdb.io/YHfkL8imZwJhHwV2UGVznq/old_wf)
             echo "Old Wrokflow ID"
             echo "${OLD_WF}"
                         
