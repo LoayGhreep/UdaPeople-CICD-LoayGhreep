@@ -371,7 +371,7 @@ jobs:
               --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text)
-            if curl -s http://${BACKEND_PUBLIC_IF}:3030/api/status | grep "ok"
+            if curl -s http://${BACKEND_PUBLIC_IF}:3030/api/status | grep -i "ok"
             then
               echo "Backend Success, but this is intentional error :)"
               exit 0
@@ -383,7 +383,7 @@ jobs:
           name: Frontend smoke test.
           command: |
             FRONTEND_URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-${AWS_DEFAULT_REGION}.amazonaws.com"
-            if curl -s $FRONTEND_URL | grep "welcome"
+            if curl -s $FRONTEND_URL | grep -i "Welcome"
             then
               echo "Frontend Success!"
               exit 0
