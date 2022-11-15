@@ -426,8 +426,6 @@ jobs:
       - checkout
       - install_awscli
       - install_nodejs
-      - install_ansible
-      - create-dotenv-file
       - run:
           name: Get old stack workflow id & cleanup
           command: |
@@ -440,7 +438,7 @@ jobs:
             echo "Old Wrokflow ID"
             echo "${OLD_WF}"
                         
-            if [ "${STACKS[@]}" =~ "${OLD_WF}" ]
+            if ["${STACKS[@]}"=~"${OLD_WF}"]
             then
               echo "Removing previous stack ..."
               aws s3 rm "s3://udapeople-${OLD_WF}" --recursive
