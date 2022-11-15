@@ -294,7 +294,7 @@ jobs:
           command: |
             cd frontend
             npm install
-            npm install typescript -g
+            sudo npm install typescript -g
             npm run build
             API_URL=$(aws ec2 describe-instances \
               --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
