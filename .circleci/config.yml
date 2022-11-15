@@ -20,7 +20,6 @@ commands:
             sudo apt install --yes software-properties-common
             sudo add-apt-repository --yes --update ppa:ansible/ansible
             sudo apt install ansible --yes
-
   install_nodejs:
     description: Install nodejs
     steps:
@@ -32,7 +31,6 @@ commands:
             sudo apt-get install -y nodejs
             sudo npm install -g n
             sudo n 13.8.0
-
   destroy-environment:
     description: Destroy backend and frontend cloudformation stacks given a workflow ID.
     parameters:
@@ -56,8 +54,6 @@ commands:
           when: on_fail
           command: |
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflowID >>
-
-
   create-dotenv-file:
     description: Create .env file
     steps:
@@ -74,15 +70,6 @@ commands:
             echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> "./backend/.env"
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> "./backend/.env"
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "./backend/.env"
-#            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-#            unzip awscliv2.zip
-#            sudo ./aws/install
-#            aws s3 rm s3://udapeople-<<parameters.id>> --recursive
-#            aws cloudformation delete-stack \
-#              --stack-name "udapeople-frontend-<<parameters.id>>"
-#            aws cloudformation delete-stack \
-#              --stack-name "udapeople-backend-<<parameters.id>>"
-
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
     steps:
@@ -199,7 +186,6 @@ jobs:
             sudo npm audit fix --audit-level=critical --force
             sudo npm audit --audit-level=critical
 
-
   deploy-infrastructure:
     docker:
       - image: cimg/base:stable
@@ -235,7 +221,6 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-#      - destroy-environment
 
   configure-infrastructure:
     docker:
@@ -290,7 +275,6 @@ jobs:
                   curl --insecure https://kvdb.io/YHfkL8imZwJhHwV2UGVznq/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
               fi
               echo "3"
-     # Here's where you will add some code to rollback on failure  2
 
   deploy-frontend:
     docker:
@@ -370,28 +354,46 @@ jobs:
             ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory.txt deploy-backend.yml
       - destroy-environment
 
-#   smoke-test:
-#     docker:
-#       # Lightweight Docker image 
-#     steps:
-#       # Checkout code from git
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # your code here
-#       - run:
-#           name: Get backend url
-#           command: |
-#             # your code here
-#       - run:
-#           name: Backend smoke test.
-#           command: |
-#             # your code here
-#       - run:
-#           name: Frontend smoke test.
-#           command: |
-#             # your code here
-#       # Here's where you will add some code to rollback on failure  
+  smoke-test:
+    docker:
+      - image: cimg/node:13.8.0
+    steps:
+      - checkout
+      - install_awscli
+      - install_nodejs
+      - install_ansible
+      - create-dotenv-file
+      # Checkout code from git
+      - run:
+          name: Backend Smoke Test
+          command: |
+            BACKEND_PUBLIC_IF=$(aws ec2 describe-instances \
+              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text)
+            if curl -s http://${BACKEND_PUBLIC_IF}:3030/api/status | grep "ok"
+            then
+              echo "Backend Success, but this is intentional error :)"
+              exit 1
+            else
+              echo "Backend Fail!"
+              exit 0
+            fi
+      - run:
+          name: Frontend smoke test.
+          command: |
+            FRONTEND_URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-${AWS_DEFAULT_REGION}.amazonaws.com"
+            if curl -s $FRONTEND_URL | grep "welcome"
+            then
+              echo "Frontend Success!"
+              exit 0
+            else
+              echo "Frontend Fail!"
+              exit 0
+            fi
+      - destroy-environment
+
+
 
 #   cloudfront-update:
 #     docker:
