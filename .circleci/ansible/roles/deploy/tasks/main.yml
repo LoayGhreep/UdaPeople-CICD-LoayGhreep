@@ -6,8 +6,8 @@
 
 - name: "Unarchive"
   unarchive:
-    src: artifact.tar.gz
-    dest: ~/backend-app
+    src: /home/artifact.tar.gz
+    dest: ~/backend-app/
 
 #- name: Copy backend files
 #  become: true
@@ -18,6 +18,7 @@
 - name: "Install dep"
   shell: |
       cd ~/backend-app
+      npm install typescript -g
       npm i
 
 - name: "Exec PM2"
