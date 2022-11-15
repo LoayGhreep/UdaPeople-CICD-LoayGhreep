@@ -300,13 +300,12 @@ jobs:
               --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text)
-            export "API_URL=http://${API_URL}:3030"
             echo "API_URL=http://${API_URL}:3030" > ".env"
             echo "ENVIRONMENT=production" >> ".env"
             echo "NODE_ENV=production" >> ".env"
             cat .env
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
-            aws s3 sync . s3://udapeople-"${CIRCLE_WORKFLOW_ID}" --delete
+            aws s3 sync . s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --delete
             echo "s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}"
       - persist_to_workspace:
           root: ~/
