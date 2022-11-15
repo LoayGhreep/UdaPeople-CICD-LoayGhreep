@@ -440,7 +440,7 @@ jobs:
             echo "Old Wrokflow ID"
             echo "${OLD_WF}"
                         
-            if [[ "${STACKS[@]}" =~ "${OLD_WF}"]]
+            if [ "${STACKS[@]}" =~ "${OLD_WF}" ]
             then
               echo "Removing previous stack ..."
               aws s3 rm "s3://udapeople-${OLD_WF}" --recursive
