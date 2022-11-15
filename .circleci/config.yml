@@ -345,20 +345,17 @@ jobs:
           command: |
             cd backend
             sudo npm install typescript -g
-            echo "Whooooooooooooooooooooooooooooooo-1"
             npm install
-            echo "Whooooooooooooooooooooooooooooooo-2"
             npm run build
-            echo "Whooooooooooooooooooooooooooooooo-3"
+            tar -czf artifact.tar.gz dist/* package*
             cd ..
-            tar -C backend -czvf artifact.tar.gz .
-            sudo cp artifact.tar.gz /home/
+            cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
       - run:
           name: Deploy backend
           command: |
-            export TYPEORM_MIGRATIONS_DIR=/home/circleci/project/backend/src/migrations
-            export TYPEORM_ENTITIES=/home/circleci/project/backend/src/modules/domain/**/*.entity{.ts,.js}
-            export TYPEORM_MIGRATIONS=/home/circleci/project/backend/src/migrations/*.ts
+            export TYPEORM_MIGRATIONS_DIR=./migrations
+            export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
+            export TYPEORM_MIGRATIONS=./migrations/*.ts
             cd .circleci/ansible/
             echo "[web]" > inventory.txt
             BACKEND_PUBLIC_IF=$(aws ec2 describe-instances \
