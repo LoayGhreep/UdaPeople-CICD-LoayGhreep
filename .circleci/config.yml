@@ -391,7 +391,6 @@ jobs:
               echo "Frontend Fail!"
               exit 1
             fi
-      - destroy-environment
 
 
 
