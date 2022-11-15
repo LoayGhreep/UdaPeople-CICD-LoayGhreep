@@ -374,10 +374,10 @@ jobs:
             if curl -s http://${BACKEND_PUBLIC_IF}:3030/api/status | grep "ok"
             then
               echo "Backend Success, but this is intentional error :)"
-              exit 1
+              exit 0
             else
               echo "Backend Fail!"
-              exit 0
+              exit 1
             fi
       - run:
           name: Frontend smoke test.
@@ -389,7 +389,7 @@ jobs:
               exit 0
             else
               echo "Frontend Fail!"
-              exit 0
+              exit 1
             fi
       - destroy-environment
 
