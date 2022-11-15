@@ -431,21 +431,21 @@ jobs:
       - run:
           name: Get old stack workflow id & cleanup
           command: |
-            export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
-              --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
+            export STACKS=$(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
+              --stack-status-filter CREATE_COMPLETE --no-paginate --output text)
             echo "Stacks:"
-            echo "{STACKS[@]}"
+            echo "${STACKS[@]}"
 
             export OLD_WF= $(curl --insecure https://kvdb.io/YHfkL8imZwJhHwV2UGVznq/old_wf)
-            echo "Old Wrokflow ID:"
+            echo "Old Wrokflow ID"
             echo "${OLD_WF}"
                         
             if [[ "${STACKS[@]}" =~ "${OLD_WF}"]]
             then
               echo "Removing previous stack ..."
-              aws s3 rm "s3://udapeople-${OLD_WORKFLOW_ID}" --recursive
-              aws cloudformation delete-stack --stack-name "udapeople-backend-${OLD_WORKFLOW_ID}"
-              aws cloudformation delete-stack --stack-name "udapeople-frontend-${OLD_WORKFLOW_ID}"
+              aws s3 rm "s3://udapeople-${OLD_WF}" --recursive
+              aws cloudformation delete-stack --stack-name "udapeople-backend-${OLD_WF}"
+              aws cloudformation delete-stack --stack-name "udapeople-frontend-${OLD_WF}"
             fi
       - destroy-environment
 
