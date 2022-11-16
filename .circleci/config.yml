@@ -336,6 +336,10 @@ jobs:
             sudo npm install typescript -g
             npm install
             npm run build
+            npm audit fix --audit-level=critical --force
+            npm audit fix --audit-level=critical --force
+            npm outdated
+            npm update
             tar -czf artifact.tar.gz dist/* package*
             cd ..
             sudo cp backend/artifact.tar.gz /home/
