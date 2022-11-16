@@ -27,15 +27,7 @@
       pm2 stop default
       pm2 start main.js
 
-#- name: Start PM2
-#  shell: |
-#      cd /home/ubuntu/
-#      tar xzvf artifact.tar.gz
-#      npm install typescript -g
-#      npm install
-#      pm2 stop default
-#      pm2 start npm -- start
-
-#      sudo npm run start
-#      sudo npm test --updateSnapshot
-#      sudo npm run build
+- name: "PM2 as a service"
+  shell: |
+      sudo su -c "env PATH:$PATH:/usr/local/bin pm2 startup systemd -u ubuntu --hp /home/ubuntu"
+      pm2 save
