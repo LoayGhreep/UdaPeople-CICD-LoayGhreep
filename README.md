@@ -10,6 +10,5 @@
 ### Build By
 
 - Engineer : [Loay Ghreep](https://www.linkedin.com/in/loay-ghreep-379580112/)
-- Manager         : [Tamer Mahfouz](https://www.linkedin.com/in/tamer-mahfouz-11766b19/)
 - Company         : [eCards](https://www.ecards.com.eg/)
 - Group           : [efinance Investment Group (EFIG)](https://www.efinanceinvestment.com/)
