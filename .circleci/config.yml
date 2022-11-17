@@ -441,7 +441,9 @@ jobs:
             echo "Old Wrokflow ID:"
             echo "${OLD_WF}"
                         
-            if [ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OLD_WF}" ];then
+            if [ "${CIRCLE_WORKFLOW_ID:0:7}" == "${OLD_WF}" ];then
+              echo "Nothing to remove"
+            else
               echo "Removing previous stack ..."
               aws s3 rm "s3://udapeople-${OLD_WF}" --recursive || echo "No S3 Bucket with that name ..."
               aws cloudformation delete-stack --stack-name "udapeople-backend-${OLD_WF}" || echo "No stack with that name ..."
@@ -452,33 +454,33 @@ jobs:
 workflows:
   default:
     jobs:
-      - build-frontend
-      - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
-      - scan-backend:
-          requires: [build-backend]
-      - scan-frontend:
-          requires: [build-frontend]
-      - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-#         requires: [build-frontend,build-backend]1
-          filters:
-            branches:
-              only: [main]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [run-migrations]
-      - deploy-backend:
-          requires: [run-migrations]
-      - smoke-test:
-          requires: [deploy-backend, deploy-frontend]
-      - cloudfront-update:
-          requires: [smoke-test]
-      - cleanup:
-          requires: [cloudfront-update]
+#       - build-frontend
+#       - build-backend
+#       - test-frontend:
+#           requires: [build-frontend]
+#       - test-backend:
+#           requires: [build-backend]
+#       - scan-backend:
+#           requires: [build-backend]
+#       - scan-frontend:
+#           requires: [build-frontend]
+#       - deploy-infrastructure:
+#           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+# #         requires: [build-frontend,build-backend]1
+#           filters:
+#             branches:
+#               only: [main]
+#       - configure-infrastructure:
+#           requires: [deploy-infrastructure]
+#       - run-migrations:
+#           requires: [configure-infrastructure]
+#       - deploy-frontend:
+#           requires: [run-migrations]
+#       - deploy-backend:
+#           requires: [run-migrations]
+#       - smoke-test:
+#           requires: [deploy-backend, deploy-frontend]
+#       - cloudfront-update:
+#           requires: [smoke-test]
+      - cleanup
+#          requires: [cloudfront-update]
