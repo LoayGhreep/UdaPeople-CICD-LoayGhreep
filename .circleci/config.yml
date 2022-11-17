@@ -434,9 +434,9 @@ jobs:
       - run:
           name: Get old stack workflow id & cleanup
           command: |
-            OLD_WORKFLOW_ID=$(aws cloudformation \
-              list-exports --query "Exports[?Name==\`UdapeopleWorkflowID\`].Value" \
-              --no-paginate --output text)
+            export OldWorkflowID=$(aws cloudformation \
+            list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+            --no-paginate --output text)
             echo "OLD_WORKFLOW_ID: $OLD_WORKFLOW_ID."
             export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
               --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
@@ -485,4 +485,4 @@ workflows:
       - cloudfront-update:
           requires: [smoke-test]
       - cleanup:
-          requires: [cloudfront-update]
+#          requires: [cloudfront-update]
