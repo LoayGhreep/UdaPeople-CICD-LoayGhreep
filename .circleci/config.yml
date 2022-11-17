@@ -443,9 +443,9 @@ jobs:
                         
             if [ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OLD_WF}" ];then
               echo "Removing previous stack ..."
-              aws s3 rm "s3://${OLD_WF}" --recursive
-              aws cloudformation delete-stack --stack-name "udapeople-backend-${OLD_WF}" || echo "."
-              aws cloudformation delete-stack --stack-name "udapeople-frontend-${OLD_WF}" || echo "."
+              aws s3 rm "s3://udapeople-${OLD_WF}" --recursive || echo "No S3 Bucket with that name ..."
+              aws cloudformation delete-stack --stack-name "udapeople-backend-${OLD_WF}" || echo "No stack with that name ..."
+              aws cloudformation delete-stack --stack-name "udapeople-frontend-${OLD_WF}" || echo "No stack with that name ..."
             fi
       - destroy-environment
 
