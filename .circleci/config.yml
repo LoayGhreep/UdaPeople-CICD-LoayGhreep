@@ -441,7 +441,7 @@ jobs:
             echo "Old Wrokflow ID:"
             echo "${OLD_WF}"
                         
-            if [${CIRCLE_WORKFLOW_ID:0:7}" != ${OLD_WF}"]
+            if (( ${CIRCLE_WORKFLOW_ID:0:7}" != ${OLD_WF}" ))
             then
               echo "Removing previous stack ..."
               aws s3 rm "s3://${OLD_WF}" --recursive
