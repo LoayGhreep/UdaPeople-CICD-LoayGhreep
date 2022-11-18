@@ -433,12 +433,11 @@ jobs:
       - run:
           name: Get old stack workflow id & cleanup
           command: |
-            curl 
             export STACKS=$(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
               --stack-status-filter CREATE_COMPLETE --no-paginate --output text)
             echo "Stacks before clean-up:"
             echo "${STACKS[@]}"
-            export OLD_WF=$(curl https://kvdb.io/YHfkL8imZwJhHwV2UGVznq/old_wf)
+            export OLD_WF=$(curl --insecure https://kvdb.io/YHfkL8imZwJhHwV2UGVznq/old_wf)
             echo "Old Wrokflow ID:"
             echo "${OLD_WF}"
                         
